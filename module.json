@@ -1,0 +1,29 @@
+{
+    "name": "FilamentFormBuilder",
+    "alias": "filament-form-builder",
+    "description": {
+        "ar": "Manage your forms using database and drop/drag component to build the form with Livewire component support for FilamentPHP",
+        "en": "Manage your forms using database and drop/drag component to build the form with Livewire component support for FilamentPHP",
+        "gr": "Manage your forms using database and drop/drag component to build the form with Livewire component support for FilamentPHP",
+        "sp": "Manage your forms using database and drop/drag component to build the form with Livewire component support for FilamentPHP"
+    },
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "TomatoPHP\\FilamentFormBuilder\\FilamentFormBuilderServiceProvider"
+    ],
+    "files": [],
+    "title": {
+        "ar": "Filament form builder",
+        "en": "Filament form builder",
+        "gr": "Filament form builder",
+        "sp": "Filament form builder"
+    },
+    "color": "#cc1448",
+    "icon": "heroicon-c-users",
+    "placeholder": "https://raw.githubusercontent.com/tomatophp/filament-form-builder/master/art/screenshot.jpg",
+    "type": "plugin",
+    "version": "v1.0.0",
+    "github" : "https://github.com/tomatophp/filament-form-builder",
+    "docs" : "https://github.com/tomatophp/filament-form-builder"
+}
