@@ -2,9 +2,9 @@
 
 namespace TomatoPHP\FilamentFormBuilder\Filament\Resources\FormRequestResource\Pages;
 
-use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormRequestResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormRequestResource;
 
 class EditFormRequest extends EditRecord
 {

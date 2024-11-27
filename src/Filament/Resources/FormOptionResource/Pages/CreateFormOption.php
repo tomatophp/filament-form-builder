@@ -2,9 +2,8 @@
 
 namespace TomatoPHP\FilamentFormBuilder\Filament\Resources\FormOptionResource\Pages;
 
-use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormOptionResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormOptionResource;
 
 class CreateFormOption extends CreateRecord
 {

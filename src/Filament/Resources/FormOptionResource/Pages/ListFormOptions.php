@@ -2,9 +2,9 @@
 
 namespace TomatoPHP\FilamentFormBuilder\Filament\Resources\FormOptionResource\Pages;
 
-use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormOptionResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormOptionResource;
 
 class ListFormOptions extends ListRecords
 {

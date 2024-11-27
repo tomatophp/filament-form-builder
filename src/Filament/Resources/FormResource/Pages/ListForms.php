@@ -2,10 +2,9 @@
 
 namespace TomatoPHP\FilamentFormBuilder\Filament\Resources\FormResource\Pages;
 
+use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
 use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormResource;
-use Filament\Actions;
-use Filament\Resources\Pages\ListRecords;
 
 class ListForms extends ManageRecords
 {
@@ -16,7 +15,7 @@ class ListForms extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()
+            Actions\CreateAction::make(),
         ];
     }
 }

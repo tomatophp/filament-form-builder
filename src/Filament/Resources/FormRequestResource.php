@@ -2,16 +2,13 @@
 
 namespace TomatoPHP\FilamentFormBuilder\Filament\Resources;
 
-use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormRequestResource\Pages;
-use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormRequestResource\RelationManagers;
-use TomatoPHP\FilamentFormBuilder\Models\FormRequest;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormRequestResource\Pages;
+use TomatoPHP\FilamentFormBuilder\Models\FormRequest;
 
 class FormRequestResource extends Resource
 {

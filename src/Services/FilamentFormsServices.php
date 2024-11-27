@@ -8,7 +8,8 @@ class FilamentFormsServices
 {
     public array $forms = [];
 
-    public function register(Form $form){
+    public function register(Form $form)
+    {
         $this->forms[] = $form;
     }
 
@@ -19,9 +20,9 @@ class FilamentFormsServices
 
     public function build(): void
     {
-        foreach ($this->forms as $form){
+        foreach ($this->forms as $form) {
             $checkIfFormExists = \TomatoPHP\FilamentFormBuilder\Models\Form::where('key', $form->key)->first();
-            if(!$checkIfFormExists){
+            if (! $checkIfFormExists) {
                 $newForm = \TomatoPHP\FilamentFormBuilder\Models\Form::create($form->toArray());
                 $newForm->fields()->createMany($form->inputs);
             }

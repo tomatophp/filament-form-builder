@@ -2,9 +2,8 @@
 
 namespace TomatoPHP\FilamentFormBuilder\Filament\Resources\FormResource\Pages;
 
-use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormResource;
 
 class CreateForm extends CreateRecord
 {

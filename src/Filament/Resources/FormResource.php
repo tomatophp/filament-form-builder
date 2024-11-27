@@ -2,18 +2,16 @@
 
 namespace TomatoPHP\FilamentFormBuilder\Filament\Resources;
 
+use Filament\Forms;
+use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormResource\Pages;
 use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormResource\RelationManagers;
 use TomatoPHP\FilamentFormBuilder\Models\Form as FormModel;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class FormResource extends Resource
 {
@@ -50,20 +48,20 @@ class FormResource extends Resource
                 ->label(trans('filament-cms::messages.forms.columns.type'))
                 ->searchable()
                 ->options([
-                    "page" => "Page",
-                    "modal" => "Modal",
-                    "slideover" => "Slideover",
+                    'page' => 'Page',
+                    'modal' => 'Modal',
+                    'slideover' => 'Slideover',
                 ])
                 ->default('page'),
             Forms\Components\Select::make('method')
                 ->label(trans('filament-cms::messages.forms.columns.method'))
                 ->searchable()
                 ->options([
-                    "POST" => "POST",
-                    "GET" => "GET",
-                    "PUT" => "PUT",
-                    "DELETE" => "DELETE",
-                    "PATCH" => "PATCH",
+                    'POST' => 'POST',
+                    'GET' => 'GET',
+                    'PUT' => 'PUT',
+                    'DELETE' => 'DELETE',
+                    'PATCH' => 'PATCH',
                 ])
                 ->default('POST'),
             Forms\Components\TextInput::make('title')
@@ -85,11 +83,12 @@ class FormResource extends Resource
             Forms\Components\Toggle::make('is_active')
                 ->label(trans('filament-cms::messages.forms.columns.is_active')),
         ];
+
         return $form
-            ->schema(fn($record) => $record ? [
+            ->schema(fn ($record) => $record ? [
                 Forms\Components\Section::make(trans('filament-cms::messages.forms.section.information'))
                     ->collapsible()
-                    ->collapsed(fn($record) => $record)
+                    ->collapsed(fn ($record) => $record)
                     ->schema($formSchema),
             ] : $formSchema);
     }

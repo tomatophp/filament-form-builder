@@ -46,13 +46,13 @@ class FilamentFormGenerator extends Command
         $buildFieldsArray = collect([]);
         $title = $this->ask('please input your form title');
         $key = $this->ask('please input your form key', Str::slug($name));
-        $checkIfFormExists = Form::where('key', $key??Str::slug($name))->first();
-        $key= $key??Str::slug($name);
-        while ($checkIfFormExists){
+        $checkIfFormExists = Form::where('key', $key ?? Str::slug($name))->first();
+        $key = $key ?? Str::slug($name);
+        while ($checkIfFormExists) {
             $this->error('Form already exists');
             $key = $this->ask('please input your form key [unique]', Str::slug($name));
-            $checkIfFormExists = Form::where('key', $key??Str::slug($name))->first();
-            $key= $key??Str::slug($name);
+            $checkIfFormExists = Form::where('key', $key ?? Str::slug($name))->first();
+            $key = $key ?? Str::slug($name);
         }
         $endpoint = $this->ask('please input your form endpoint', '/');
         $method = $this->ask('please input your form method', 'POST');
@@ -61,12 +61,12 @@ class FilamentFormGenerator extends Command
 
         $fields = [];
         $add = true;
-        while ($add){
+        while ($add) {
             $fieldKey = $this->ask('please input your first field key');
             $checkIfFieldExists = Field::where('key', $fieldKey)->first();
-            if(!$checkIfFieldExists){
+            if (! $checkIfFieldExists) {
                 $ask = $this->ask('Field not exits exists do you went to create new? [yes/no]', 'no');
-                if($ask === 'yes' || $ask === 'y'){
+                if ($ask === 'yes' || $ask === 'y') {
                     $type = $this->ask('type', 'text');
                     $label = $this->ask('label');
                     $fieldKey = $this->ask('key [unique]', Str::slug($label));
@@ -74,38 +74,35 @@ class FilamentFormGenerator extends Command
                     $required = $this->ask('Is Required? [yes/no]', 'yes');
                     $hasOptions = $this->ask('Has Options? [yes/no]', 'no');
 
-                    $buildFieldsArray->push("           [");
-                    $buildFieldsArray->push("              'label'=>'".$label. "',");
-                    $buildFieldsArray->push("              'key'=>'".$fieldKey ?? Str::slug($fieldKey). "',");
-                    $buildFieldsArray->push("              'type'=>'".$type. "',");
-                    $buildFieldsArray->push("              'placeholder'=>'".$placeholder. "',");
-                    if($required || $required === 'n' || $required === 'no'){
+                    $buildFieldsArray->push('           [');
+                    $buildFieldsArray->push("              'label'=>'" . $label . "',");
+                    $buildFieldsArray->push("              'key'=>'" . $fieldKey ?? Str::slug($fieldKey) . "',");
+                    $buildFieldsArray->push("              'type'=>'" . $type . "',");
+                    $buildFieldsArray->push("              'placeholder'=>'" . $placeholder . "',");
+                    if ($required || $required === 'n' || $required === 'no') {
                         $buildFieldsArray->push("               'is_required'=>false,");
-                    }
-                    else {
+                    } else {
                         $buildFieldsArray->push("               'is_required'=>true,");
                     }
-                    if($hasOptions || $hasOptions === 'y' || $hasOptions === 'yes'){
+                    if ($hasOptions || $hasOptions === 'y' || $hasOptions === 'yes') {
                         $buildFieldsArray->push("              'has_options'=>true,");
-                    }
-                    else {
+                    } else {
                         $buildFieldsArray->push("              'has_options'=>false,");
                     }
 
-
-                    if($hasOptions === 'y' || $hasOptions === 'yes'){
+                    if ($hasOptions === 'y' || $hasOptions === 'yes') {
                         $options = $this->ask('options LIKE: male, female');
-                        $buildFieldsArray->push("               'options'=>".$options. ",");
+                        $buildFieldsArray->push("               'options'=>" . $options . ',');
 
                         $options = explode(',', $options);
-                        $options = array_map(function ($option){
+                        $options = array_map(function ($option) {
                             return trim($option);
                         }, $options);
                     }
 
-                    $buildFieldsArray->push("           ],");
+                    $buildFieldsArray->push('           ],');
 
-                    $createNewField = new Field();
+                    $createNewField = new Field;
                     $createNewField->label = $label;
                     $createNewField->key = $fieldKey ?? Str::slug($fieldKey);
                     $createNewField->type = $type;
@@ -115,8 +112,8 @@ class FilamentFormGenerator extends Command
 
                     $createNewField->save();
 
-                    if($hasOptions === 'y' || $hasOptions === 'yes'){
-                        foreach ($options as $option){
+                    if ($hasOptions === 'y' || $hasOptions === 'yes') {
+                        foreach ($options as $option) {
                             $createNewField->options()->create([
                                 'type' => 'text',
                                 'label' => $option,
@@ -128,36 +125,33 @@ class FilamentFormGenerator extends Command
                     $fields[] = $createNewField->id;
                 }
 
-            }
-            else {
-                $buildFieldsArray->push("           [");
-                $buildFieldsArray->push("               'label'=>'".$checkIfFieldExists->label. "',");
-                $buildFieldsArray->push("               'key'=>'".$checkIfFieldExists->key. "',");
-                $buildFieldsArray->push("               'type'=>'".$checkIfFieldExists->type. "',");
-                $buildFieldsArray->push("               'placeholder'=>'".$checkIfFieldExists->placeholder. "',");
-                if($checkIfFieldExists->is_required){
+            } else {
+                $buildFieldsArray->push('           [');
+                $buildFieldsArray->push("               'label'=>'" . $checkIfFieldExists->label . "',");
+                $buildFieldsArray->push("               'key'=>'" . $checkIfFieldExists->key . "',");
+                $buildFieldsArray->push("               'type'=>'" . $checkIfFieldExists->type . "',");
+                $buildFieldsArray->push("               'placeholder'=>'" . $checkIfFieldExists->placeholder . "',");
+                if ($checkIfFieldExists->is_required) {
                     $buildFieldsArray->push("               'is_required'=>true,");
-                }
-                else {
+                } else {
                     $buildFieldsArray->push("               'is_required'=>false,");
                 }
-                if($checkIfFieldExists->has_options){
+                if ($checkIfFieldExists->has_options) {
                     $buildFieldsArray->push("               'has_options'=>true,");
-                }
-                else {
+                } else {
                     $buildFieldsArray->push("               'has_options'=>false,");
                 }
-                if($checkIfFieldExists->has_options){
-                    $getOptions = "";
-                    foreach($checkIfFieldExists->options as $optionKey=>$option){
+                if ($checkIfFieldExists->has_options) {
+                    $getOptions = '';
+                    foreach ($checkIfFieldExists->options as $optionKey => $option) {
                         $getOptions .= $option->value;
-                        if($optionKey !== count($option)-1){
-                            $getOptions.= ",";
+                        if ($optionKey !== count($option) - 1) {
+                            $getOptions .= ',';
                         }
                     }
-                    $buildFieldsArray->push("               'options'=>".$getOptions. ",");
+                    $buildFieldsArray->push("               'options'=>" . $getOptions . ',');
                 }
-                $buildFieldsArray->push("           ],");
+                $buildFieldsArray->push('           ],');
 
                 $fields[] = $checkIfFieldExists->id;
             }
@@ -166,7 +160,7 @@ class FilamentFormGenerator extends Command
             $add = $addMore === 'yes' || $addMore === 'y' ? true : false;
         }
 
-        $createNewForm = new Form();
+        $createNewForm = new Form;
         $createNewForm->name = $title;
         $createNewForm->key = $key;
         $createNewForm->endpoint = $endpoint ?? '/';
@@ -179,13 +173,13 @@ class FilamentFormGenerator extends Command
 
         $this->generateStubs(
             __DIR__ . '/../../stubs/migration.stub',
-            database_path('migrations/'.date('Y_m_d_His').'_fill_form_for_'.Str::lower($key).'.php'),
+            database_path('migrations/' . date('Y_m_d_His') . '_fill_form_for_' . Str::lower($key) . '.php'),
             [
                 'name' => Str::ucfirst(Str::camel($key)),
                 'key' => $key,
                 'fields' => $buildFieldsArray->implode("\n"),
-                'formName' =>  $title,
-                'formEndpoint' =>  $endpoint ?? '/',
+                'formName' => $title,
+                'formEndpoint' => $endpoint ?? '/',
                 'formMethod' => $method ?? 'POST',
                 'formDescription' => $description ?? '',
                 'formType' => $type,

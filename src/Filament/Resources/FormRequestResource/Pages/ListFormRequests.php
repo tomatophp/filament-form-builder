@@ -2,9 +2,9 @@
 
 namespace TomatoPHP\FilamentFormBuilder\Filament\Resources\FormRequestResource\Pages;
 
-use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormRequestResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormRequestResource;
 
 class ListFormRequests extends ListRecords
 {

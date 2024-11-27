@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if(config('filament-cms.features.form_requests')) {
+        if (config('filament-cms.features.form_requests')) {
             Schema::create('form_request_metas', function (Blueprint $table) {
                 $table->id();
 

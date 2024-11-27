@@ -2,17 +2,15 @@
 
 namespace TomatoPHP\FilamentFormBuilder\Filament\Resources\FormResource\RelationManagers;
 
-use Filament\Forms\Form;
 use Filament\Forms;
+use Filament\Forms\Form;
 use Filament\Infolists\Components\KeyValueEntry;
-use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables\Table;
 use Filament\Tables;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use TomatoPHP\FilamentFormBuilder\Models\FormRequest;
 
 class FormRequestsRelation extends RelationManager
@@ -24,30 +22,20 @@ class FormRequestsRelation extends RelationManager
         return trans('filament-cms::messages.forms.requests.title');
     }
 
-    /**
-     * @return string|null
-     */
     public static function getLabel(): ?string
     {
         return trans('filament-cms::messages.forms.requests.title');
     }
 
-    /**
-     * @return string|null
-     */
     public static function getModelLabel(): ?string
     {
         return trans('filament-cms::messages.forms.requests.single');
     }
 
-    /**
-     * @return string|null
-     */
     public static function getPluralLabel(): ?string
     {
         return trans('filament-cms::messages.forms.requests.title');
     }
-
 
     public function form(Form $form): Form
     {
@@ -57,10 +45,10 @@ class FormRequestsRelation extends RelationManager
                     ->label(trans('filament-cms::messages.forms.requests.columns.status'))
                     ->searchable()
                     ->options([
-                        "pending" => trans('filament-cms::messages.forms.requests.columns.pending'),
-                        "processing" => trans('filament-cms::messages.forms.requests.columns.processing'),
-                        "completed" => trans('filament-cms::messages.forms.requests.columns.completed'),
-                        "cancelled" => trans('filament-cms::messages.forms.requests.columns.cancelled'),
+                        'pending' => trans('filament-cms::messages.forms.requests.columns.pending'),
+                        'processing' => trans('filament-cms::messages.forms.requests.columns.processing'),
+                        'completed' => trans('filament-cms::messages.forms.requests.columns.completed'),
+                        'cancelled' => trans('filament-cms::messages.forms.requests.columns.cancelled'),
                     ])
                     ->columnSpanFull()
                     ->default('pending'),
@@ -71,19 +59,19 @@ class FormRequestsRelation extends RelationManager
     {
 
         return $infolist->schema([
-           TextEntry::make('description')
-               ->label(trans('filament-cms::messages.forms.requests.columns.description'))
-               ->columnSpanFull(),
-           TextEntry::make('time')
-               ->label(trans('filament-cms::messages.forms.requests.columns.time')),
-           TextEntry::make('date')
-               ->label(trans('filament-cms::messages.forms.requests.columns.date')),
-           KeyValueEntry::make('payload')
-               ->label(trans('filament-cms::messages.forms.requests.columns.payload'))
+            TextEntry::make('description')
+                ->label(trans('filament-cms::messages.forms.requests.columns.description'))
+                ->columnSpanFull(),
+            TextEntry::make('time')
+                ->label(trans('filament-cms::messages.forms.requests.columns.time')),
+            TextEntry::make('date')
+                ->label(trans('filament-cms::messages.forms.requests.columns.date')),
+            KeyValueEntry::make('payload')
+                ->label(trans('filament-cms::messages.forms.requests.columns.payload'))
                 ->columnSpanFull()
-                ->schema(function(FormRequest $record){
+                ->schema(function (FormRequest $record) {
                     $getEntryText = [];
-                    foreach ($record->payload as $key=>$value){
+                    foreach ($record->payload as $key => $value) {
                         $field = $record->form->fields->where('key', $key)->first();
                         $getEntryText[] = TextEntry::make($key)
                             ->label($field->label ?? str($key)->title())
@@ -93,7 +81,7 @@ class FormRequestsRelation extends RelationManager
 
                     return $getEntryText;
                 })
-                ->columns(2)
+                ->columns(2),
         ]);
     }
 
@@ -104,21 +92,21 @@ class FormRequestsRelation extends RelationManager
                 Tables\Columns\TextColumn::make('status')
                     ->label(trans('filament-cms::messages.forms.requests.columns.status'))
                     ->badge()
-                    ->state(fn($record) => match($record->status) {
-                        "pending" => trans('filament-cms::messages.forms.requests.columns.pending'),
-                        "processing" => trans('filament-cms::messages.forms.requests.columns.processing'),
-                        "completed" => trans('filament-cms::messages.forms.requests.columns.completed'),
-                        "cancelled" => trans('filament-cms::messages.forms.requests.columns.cancelled'),
+                    ->state(fn ($record) => match ($record->status) {
+                        'pending' => trans('filament-cms::messages.forms.requests.columns.pending'),
+                        'processing' => trans('filament-cms::messages.forms.requests.columns.processing'),
+                        'completed' => trans('filament-cms::messages.forms.requests.columns.completed'),
+                        'cancelled' => trans('filament-cms::messages.forms.requests.columns.cancelled'),
                         default => $record->status,
                     })
-                    ->icon(fn($record) => match($record->status) {
+                    ->icon(fn ($record) => match ($record->status) {
                         'pending' => 'heroicon-s-rectangle-stack',
                         'processing' => 'heroicon-s-arrow-path',
                         'completed' => 'heroicon-s-check-circle',
                         'cancelled' => 'heroicon-s-x-circle',
                         default => 'heroicon-s-x-circle',
                     })
-                    ->color(fn($record) => match($record->status) {
+                    ->color(fn ($record) => match ($record->status) {
                         'pending' => 'info',
                         'processing' => 'warning',
                         'completed' => 'success',
@@ -148,16 +136,16 @@ class FormRequestsRelation extends RelationManager
                     ->label(trans('filament-cms::messages.forms.requests.columns.status'))
                     ->searchable()
                     ->options([
-                        "pending" => trans('filament-cms::messages.forms.requests.columns.pending'),
-                        "processing" => trans('filament-cms::messages.forms.requests.columns.processing'),
-                        "completed" => trans('filament-cms::messages.forms.requests.columns.completed'),
-                        "cancelled" => trans('filament-cms::messages.forms.requests.columns.cancelled'),
+                        'pending' => trans('filament-cms::messages.forms.requests.columns.pending'),
+                        'processing' => trans('filament-cms::messages.forms.requests.columns.processing'),
+                        'completed' => trans('filament-cms::messages.forms.requests.columns.completed'),
+                        'cancelled' => trans('filament-cms::messages.forms.requests.columns.cancelled'),
                     ])
                     ->columnSpanFull(),
             ])
             ->defaultSort('created_at', 'desc')
             ->groups([
-                Tables\Grouping\Group::make('status')
+                Tables\Grouping\Group::make('status'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -169,5 +157,4 @@ class FormRequestsRelation extends RelationManager
                 ]),
             ]);
     }
-
 }

@@ -7,12 +7,12 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
- * @property integer $id
- * @property integer $form_id
+ * @property int $id
+ * @property int $form_id
  * @property string $model_type
- * @property integer $model_id
+ * @property int $model_id
  * @property string $service_type
- * @property integer $service_id
+ * @property int $service_id
  * @property string $description
  * @property string $date
  * @property string $time
@@ -41,11 +41,11 @@ class FormRequest extends Model implements HasMedia
         'status',
         'payload',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     protected $casts = [
-        "payload" => "array"
+        'payload' => 'array',
     ];
 
     /**
@@ -56,16 +56,16 @@ class FormRequest extends Model implements HasMedia
         return $this->belongsTo('TomatoPHP\FilamentFormBuilder\Models\Form');
     }
 
-    public function formRequestsMetas(){
+    public function formRequestsMetas()
+    {
         return $this->hasMany(FormRequestMeta::class, 'form_request_id');
     }
 
-    public function meta(string $key, string|null $value=null): Model|string|null
+    public function meta(string $key, ?string $value = null): Model | string | null
     {
-        if($value){
+        if ($value) {
             return $this->formRequestsMetas()->updateOrCreate(['key' => $key], ['value' => $value]);
-        }
-        else {
+        } else {
             return $this->formRequestsMetas()->where('key', $key)->first()?->value;
         }
     }

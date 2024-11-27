@@ -7,10 +7,10 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
- * @property integer $id
- * @property integer $form_id
+ * @property int $id
+ * @property int $form_id
  * @property string $model_type
- * @property integer $model_id
+ * @property int $model_id
  * @property string $status
  * @property mixed $payload
  * @property string $created_at
@@ -30,7 +30,8 @@ class FormRequestMeta extends Model implements HasMedia
         'value' => 'array',
     ];
 
-    public function formRequest(){
+    public function formRequest()
+    {
         return $this->belongsTo('TomatoPHP\FilamentFormBuilder\Models\FormRequest');
     }
 }

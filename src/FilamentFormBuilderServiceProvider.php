@@ -21,49 +21,48 @@ use TomatoPHP\FilamentFormBuilder\Services\Contracts\CmsFormFieldType;
 use TomatoPHP\FilamentFormBuilder\Services\FilamentCMSFormFields;
 use TomatoPHP\FilamentIcons\Components\IconPicker;
 
-
 class FilamentFormBuilderServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
         //Register generate command
         $this->commands([
-           \TomatoPHP\FilamentFormBuilder\Console\FilamentFormBuilderInstall::class,
+            \TomatoPHP\FilamentFormBuilder\Console\FilamentFormBuilderInstall::class,
         ]);
 
         //Register Config file
-        $this->mergeConfigFrom(__DIR__.'/../config/filament-form-builder.php', 'filament-form-builder');
+        $this->mergeConfigFrom(__DIR__ . '/../config/filament-form-builder.php', 'filament-form-builder');
 
         //Publish Config
         $this->publishes([
-           __DIR__.'/../config/filament-form-builder.php' => config_path('filament-form-builder.php'),
+            __DIR__ . '/../config/filament-form-builder.php' => config_path('filament-form-builder.php'),
         ], 'filament-form-builder-config');
 
         //Register Migrations
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         //Publish Migrations
         $this->publishes([
-           __DIR__.'/../database/migrations' => database_path('migrations'),
+            __DIR__ . '/../database/migrations' => database_path('migrations'),
         ], 'filament-form-builder-migrations');
         //Register views
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'filament-form-builder');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'filament-form-builder');
 
         //Publish Views
         $this->publishes([
-           __DIR__.'/../resources/views' => resource_path('views/vendor/filament-form-builder'),
+            __DIR__ . '/../resources/views' => resource_path('views/vendor/filament-form-builder'),
         ], 'filament-form-builder-views');
 
         //Register Langs
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'filament-form-builder');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'filament-form-builder');
 
         //Publish Lang
         $this->publishes([
-           __DIR__.'/../resources/lang' => base_path('lang/vendor/filament-form-builder'),
+            __DIR__ . '/../resources/lang' => base_path('lang/vendor/filament-form-builder'),
         ], 'filament-form-builder-lang');
 
         //Register Routes
-        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
 
     }
 
