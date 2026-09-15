@@ -47,13 +47,6 @@ class FilamentFormBuilderServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../database/migrations' => database_path('migrations'),
         ], 'filament-form-builder-migrations');
-        // Register views
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'filament-form-builder');
-
-        // Publish Views
-        $this->publishes([
-            __DIR__ . '/../resources/views' => resource_path('views/vendor/filament-form-builder'),
-        ], 'filament-form-builder-views');
 
         // Register Langs
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'filament-form-builder');

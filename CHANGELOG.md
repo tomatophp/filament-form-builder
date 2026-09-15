@@ -1,5 +1,9 @@
 # Changelog
 
+### v5.0.1
+
+- fix `php artisan optimize` / `view:cache` failing in the host app: the service provider registered and published a `resources/views` folder the package does not ship
+
 ### v5.0.0
 
 - support Filament v5 and Laravel 12 / 13 (the Filament v3 line continues on the `v3` branch)
