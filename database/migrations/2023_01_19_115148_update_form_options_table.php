@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        if (config('filament-cms.features.forms')) {
+        if (! Schema::hasColumn('form_options', 'sub_form')) {
             Schema::table('form_options', function (Blueprint $table) {
                 $table->foreignId('sub_form')->nullable()->constrained('forms');
             });
@@ -27,7 +27,7 @@ return new class extends Migration
      */
     public function down()
     {
-        if (config('filament-cms.features.forms')) {
+        if (Schema::hasColumn('form_options', 'sub_form')) {
             Schema::table('form_options', function (Blueprint $table) {
                 $table->dropForeign(['sub_form']);
                 $table->dropColumn('sub_form');

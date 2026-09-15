@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (config('filament-cms.features.form_requests')) {
+        if (! Schema::hasTable('form_requests')) {
             Schema::create('form_requests', function (Blueprint $table) {
                 $table->id();
 
-                //Morph
+                // Morph
                 $table->string('model_type')->nullable();
                 $table->unsignedBigInteger('model_id')->nullable();
 
-                //Morph Service
+                // Morph Service
                 $table->string('service_type')->nullable();
                 $table->unsignedBigInteger('service_id')->nullable();
 

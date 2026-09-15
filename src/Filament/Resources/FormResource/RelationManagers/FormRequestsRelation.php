@@ -2,13 +2,18 @@
 
 namespace TomatoPHP\FilamentFormBuilder\Filament\Resources\FormResource\RelationManagers;
 
-use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Select;
 use Filament\Infolists\Components\KeyValueEntry;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use TomatoPHP\FilamentFormBuilder\Models\FormRequest;
@@ -19,55 +24,55 @@ class FormRequestsRelation extends RelationManager
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {
-        return trans('filament-cms::messages.forms.requests.title');
+        return trans('filament-form-builder::messages.forms.requests.title');
     }
 
     public static function getLabel(): ?string
     {
-        return trans('filament-cms::messages.forms.requests.title');
+        return trans('filament-form-builder::messages.forms.requests.title');
     }
 
     public static function getModelLabel(): ?string
     {
-        return trans('filament-cms::messages.forms.requests.single');
+        return trans('filament-form-builder::messages.forms.requests.single');
     }
 
     public static function getPluralLabel(): ?string
     {
-        return trans('filament-cms::messages.forms.requests.title');
+        return trans('filament-form-builder::messages.forms.requests.title');
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('status')
-                    ->label(trans('filament-cms::messages.forms.requests.columns.status'))
+        return $schema
+            ->components([
+                Select::make('status')
+                    ->label(trans('filament-form-builder::messages.forms.requests.columns.status'))
                     ->searchable()
                     ->options([
-                        'pending' => trans('filament-cms::messages.forms.requests.columns.pending'),
-                        'processing' => trans('filament-cms::messages.forms.requests.columns.processing'),
-                        'completed' => trans('filament-cms::messages.forms.requests.columns.completed'),
-                        'cancelled' => trans('filament-cms::messages.forms.requests.columns.cancelled'),
+                        'pending' => trans('filament-form-builder::messages.forms.requests.columns.pending'),
+                        'processing' => trans('filament-form-builder::messages.forms.requests.columns.processing'),
+                        'completed' => trans('filament-form-builder::messages.forms.requests.columns.completed'),
+                        'cancelled' => trans('filament-form-builder::messages.forms.requests.columns.cancelled'),
                     ])
                     ->columnSpanFull()
                     ->default('pending'),
             ]);
     }
 
-    public function infolist(Infolist $infolist): Infolist
+    public function infolist(Schema $schema): Schema
     {
 
-        return $infolist->schema([
+        return $schema->components([
             TextEntry::make('description')
-                ->label(trans('filament-cms::messages.forms.requests.columns.description'))
+                ->label(trans('filament-form-builder::messages.forms.requests.columns.description'))
                 ->columnSpanFull(),
             TextEntry::make('time')
-                ->label(trans('filament-cms::messages.forms.requests.columns.time')),
+                ->label(trans('filament-form-builder::messages.forms.requests.columns.time')),
             TextEntry::make('date')
-                ->label(trans('filament-cms::messages.forms.requests.columns.date')),
+                ->label(trans('filament-form-builder::messages.forms.requests.columns.date')),
             KeyValueEntry::make('payload')
-                ->label(trans('filament-cms::messages.forms.requests.columns.payload'))
+                ->label(trans('filament-form-builder::messages.forms.requests.columns.payload'))
                 ->columnSpanFull()
                 ->schema(function (FormRequest $record) {
                     $getEntryText = [];
@@ -89,14 +94,14 @@ class FormRequestsRelation extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('status')
-                    ->label(trans('filament-cms::messages.forms.requests.columns.status'))
+                TextColumn::make('status')
+                    ->label(trans('filament-form-builder::messages.forms.requests.columns.status'))
                     ->badge()
                     ->state(fn ($record) => match ($record->status) {
-                        'pending' => trans('filament-cms::messages.forms.requests.columns.pending'),
-                        'processing' => trans('filament-cms::messages.forms.requests.columns.processing'),
-                        'completed' => trans('filament-cms::messages.forms.requests.columns.completed'),
-                        'cancelled' => trans('filament-cms::messages.forms.requests.columns.cancelled'),
+                        'pending' => trans('filament-form-builder::messages.forms.requests.columns.pending'),
+                        'processing' => trans('filament-form-builder::messages.forms.requests.columns.processing'),
+                        'completed' => trans('filament-form-builder::messages.forms.requests.columns.completed'),
+                        'cancelled' => trans('filament-form-builder::messages.forms.requests.columns.cancelled'),
                         default => $record->status,
                     })
                     ->icon(fn ($record) => match ($record->status) {
@@ -114,46 +119,46 @@ class FormRequestsRelation extends RelationManager
                         default => 'secondary',
                     })
                     ->searchable(),
-                Tables\Columns\TextColumn::make('description')
-                    ->label(trans('filament-cms::messages.forms.requests.columns.description')),
-                Tables\Columns\TextColumn::make('date')
-                    ->label(trans('filament-cms::messages.forms.requests.columns.date'))
+                TextColumn::make('description')
+                    ->label(trans('filament-form-builder::messages.forms.requests.columns.description')),
+                TextColumn::make('date')
+                    ->label(trans('filament-form-builder::messages.forms.requests.columns.date'))
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('time')
-                    ->label(trans('filament-cms::messages.forms.requests.columns.time')),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('time')
+                    ->label(trans('filament-form-builder::messages.forms.requests.columns.time')),
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('status')
-                    ->label(trans('filament-cms::messages.forms.requests.columns.status'))
+                SelectFilter::make('status')
+                    ->label(trans('filament-form-builder::messages.forms.requests.columns.status'))
                     ->searchable()
                     ->options([
-                        'pending' => trans('filament-cms::messages.forms.requests.columns.pending'),
-                        'processing' => trans('filament-cms::messages.forms.requests.columns.processing'),
-                        'completed' => trans('filament-cms::messages.forms.requests.columns.completed'),
-                        'cancelled' => trans('filament-cms::messages.forms.requests.columns.cancelled'),
+                        'pending' => trans('filament-form-builder::messages.forms.requests.columns.pending'),
+                        'processing' => trans('filament-form-builder::messages.forms.requests.columns.processing'),
+                        'completed' => trans('filament-form-builder::messages.forms.requests.columns.completed'),
+                        'cancelled' => trans('filament-form-builder::messages.forms.requests.columns.cancelled'),
                     ])
                     ->columnSpanFull(),
             ])
             ->defaultSort('created_at', 'desc')
             ->groups([
-                Tables\Grouping\Group::make('status'),
+                Group::make('status'),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

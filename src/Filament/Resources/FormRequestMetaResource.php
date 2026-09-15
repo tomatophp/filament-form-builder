@@ -2,35 +2,40 @@
 
 namespace TomatoPHP\FilamentFormBuilder\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormRequestMetaResource\Pages;
+use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormRequestMetaResource\Pages\CreateFormRequestMeta;
+use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormRequestMetaResource\Pages\EditFormRequestMeta;
+use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormRequestMetaResource\Pages\ListFormRequestMetas;
 use TomatoPHP\FilamentFormBuilder\Models\FormRequestMeta;
 
 class FormRequestMetaResource extends Resource
 {
     protected static ?string $model = FormRequestMeta::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('model_id')
+        return $schema
+            ->components([
+                TextInput::make('model_id')
                     ->numeric(),
-                Forms\Components\TextInput::make('model_type')
+                TextInput::make('model_type')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('form_request_id')
+                TextInput::make('form_request_id')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('key')
+                TextInput::make('key')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('value'),
+                TextInput::make('value'),
             ]);
     }
 
@@ -38,21 +43,21 @@ class FormRequestMetaResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('model_id')
+                TextColumn::make('model_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('model_type')
+                TextColumn::make('model_type')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('form_request_id')
+                TextColumn::make('form_request_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('key')
+                TextColumn::make('key')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -60,12 +65,12 @@ class FormRequestMetaResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -80,9 +85,9 @@ class FormRequestMetaResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListFormRequestMetas::route('/'),
-            'create' => Pages\CreateFormRequestMeta::route('/create'),
-            'edit' => Pages\EditFormRequestMeta::route('/{record}/edit'),
+            'index' => ListFormRequestMetas::route('/'),
+            'create' => CreateFormRequestMeta::route('/create'),
+            'edit' => EditFormRequestMeta::route('/{record}/edit'),
         ];
     }
 }

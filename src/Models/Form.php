@@ -2,8 +2,11 @@
 
 namespace TomatoPHP\FilamentFormBuilder\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Translatable\HasTranslations;
+use TomatoPHP\FilamentFormBuilder\Database\Factories\FormFactory;
 
 /**
  * @property int $id
@@ -19,7 +22,13 @@ use Spatie\Translatable\HasTranslations;
  */
 class Form extends Model
 {
+    use HasFactory;
     use HasTranslations;
+
+    protected static function newFactory(): FormFactory
+    {
+        return FormFactory::new();
+    }
 
     public $translatable = ['title', 'description'];
 
@@ -28,7 +37,7 @@ class Form extends Model
      */
     protected $fillable = [
         'type',
-        'name',
+        'title',
         'key',
         'endpoint',
         'method',
@@ -43,7 +52,7 @@ class Form extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function fields()
     {

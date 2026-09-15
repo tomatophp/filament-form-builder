@@ -2,60 +2,67 @@
 
 namespace TomatoPHP\FilamentFormBuilder\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormOptionResource\Pages;
+use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormOptionResource\Pages\CreateFormOption;
+use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormOptionResource\Pages\EditFormOption;
+use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormOptionResource\Pages\ListFormOptions;
 use TomatoPHP\FilamentFormBuilder\Models\FormOption;
 
 class FormOptionResource extends Resource
 {
     protected static ?string $model = FormOption::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('form_id')
+        return $schema
+            ->components([
+                TextInput::make('form_id')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('type')
+                TextInput::make('type')
                     ->maxLength(255)
                     ->default('text'),
-                Forms\Components\TextInput::make('label'),
-                Forms\Components\TextInput::make('placeholder'),
-                Forms\Components\TextInput::make('hint'),
-                Forms\Components\TextInput::make('name')
+                TextInput::make('label'),
+                TextInput::make('placeholder'),
+                TextInput::make('hint'),
+                TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('group')
+                TextInput::make('group')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('default'),
-                Forms\Components\TextInput::make('order')
+                TextInput::make('default'),
+                TextInput::make('order')
                     ->numeric()
                     ->default(0),
-                Forms\Components\Toggle::make('is_required'),
-                Forms\Components\Toggle::make('is_multi'),
-                Forms\Components\TextInput::make('required_message'),
-                Forms\Components\Toggle::make('is_reactive'),
-                Forms\Components\TextInput::make('reactive_field')
+                Toggle::make('is_required'),
+                Toggle::make('is_multi'),
+                TextInput::make('required_message'),
+                Toggle::make('is_reactive'),
+                TextInput::make('reactive_field')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('reactive_where')
+                TextInput::make('reactive_where')
                     ->maxLength(255),
-                Forms\Components\Toggle::make('is_relation'),
-                Forms\Components\TextInput::make('relation_name')
+                Toggle::make('is_relation'),
+                TextInput::make('relation_name')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('relation_column')
+                TextInput::make('relation_column')
                     ->maxLength(255),
-                Forms\Components\Toggle::make('has_options'),
-                Forms\Components\TextInput::make('options'),
-                Forms\Components\Toggle::make('has_validation'),
-                Forms\Components\TextInput::make('validation'),
-                Forms\Components\TextInput::make('meta'),
+                Toggle::make('has_options'),
+                TextInput::make('options'),
+                Toggle::make('has_validation'),
+                TextInput::make('validation'),
+                TextInput::make('meta'),
             ]);
     }
 
@@ -63,43 +70,43 @@ class FormOptionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('form_id')
+                TextColumn::make('form_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('type')
+                TextColumn::make('type')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('group')
+                TextColumn::make('group')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('order')
+                TextColumn::make('order')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('is_required')
+                IconColumn::make('is_required')
                     ->boolean(),
-                Tables\Columns\IconColumn::make('is_multi')
+                IconColumn::make('is_multi')
                     ->boolean(),
-                Tables\Columns\IconColumn::make('is_reactive')
+                IconColumn::make('is_reactive')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('reactive_field')
+                TextColumn::make('reactive_field')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('reactive_where')
+                TextColumn::make('reactive_where')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('is_relation')
+                IconColumn::make('is_relation')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('relation_name')
+                TextColumn::make('relation_name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('relation_column')
+                TextColumn::make('relation_column')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('has_options')
+                IconColumn::make('has_options')
                     ->boolean(),
-                Tables\Columns\IconColumn::make('has_validation')
+                IconColumn::make('has_validation')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -107,12 +114,12 @@ class FormOptionResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -127,9 +134,9 @@ class FormOptionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListFormOptions::route('/'),
-            'create' => Pages\CreateFormOption::route('/create'),
-            'edit' => Pages\EditFormOption::route('/{record}/edit'),
+            'index' => ListFormOptions::route('/'),
+            'create' => CreateFormOption::route('/create'),
+            'edit' => EditFormOption::route('/{record}/edit'),
         ];
     }
 }

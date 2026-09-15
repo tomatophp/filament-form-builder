@@ -16,7 +16,7 @@ class FilamentCMSFormBuilder
 
     public static function make(string $key): static
     {
-        return (new static)->key($key);
+        return app(static::class)->key($key);
     }
 
     public function key(string $key): static

@@ -2,15 +2,25 @@
 
 namespace TomatoPHP\FilamentFormBuilder\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Concerns\Translatable;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
-use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormResource\Pages;
-use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormResource\RelationManagers;
+use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
+use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormResource\Pages\EditForm;
+use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormResource\Pages\ListForms;
+use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormResource\RelationManagers\FormFieldsRelation;
+use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormResource\RelationManagers\FormRequestsRelation;
 use TomatoPHP\FilamentFormBuilder\Models\Form as FormModel;
 
 class FormResource extends Resource
@@ -19,33 +29,33 @@ class FormResource extends Resource
 
     protected static ?string $model = FormModel::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-identification';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-identification';
 
     public static function getNavigationGroup(): ?string
     {
-        return trans('filament-cms::messages.content.group');
+        return trans('filament-form-builder::messages.group');
     }
 
     public static function getPluralLabel(): ?string
     {
-        return trans('filament-cms::messages.forms.title');
+        return trans('filament-form-builder::messages.forms.title');
     }
 
     public static function getLabel(): ?string
     {
-        return trans('filament-cms::messages.forms.single');
+        return trans('filament-form-builder::messages.forms.single');
     }
 
     public static function getNavigationLabel(): string
     {
-        return trans('filament-cms::messages.forms.title');
+        return trans('filament-form-builder::messages.forms.title');
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
         $formSchema = [
-            Forms\Components\Select::make('type')
-                ->label(trans('filament-cms::messages.forms.columns.type'))
+            Select::make('type')
+                ->label(trans('filament-form-builder::messages.forms.columns.type'))
                 ->searchable()
                 ->options([
                     'page' => 'Page',
@@ -53,8 +63,8 @@ class FormResource extends Resource
                     'slideover' => 'Slideover',
                 ])
                 ->default('page'),
-            Forms\Components\Select::make('method')
-                ->label(trans('filament-cms::messages.forms.columns.method'))
+            Select::make('method')
+                ->label(trans('filament-form-builder::messages.forms.columns.method'))
                 ->searchable()
                 ->options([
                     'POST' => 'POST',
@@ -64,29 +74,29 @@ class FormResource extends Resource
                     'PATCH' => 'PATCH',
                 ])
                 ->default('POST'),
-            Forms\Components\TextInput::make('title')
-                ->label(trans('filament-cms::messages.forms.columns.title')),
-            Forms\Components\TextInput::make('key')
-                ->label(trans('filament-cms::messages.forms.columns.key'))
+            TextInput::make('title')
+                ->label(trans('filament-form-builder::messages.forms.columns.title')),
+            TextInput::make('key')
+                ->label(trans('filament-form-builder::messages.forms.columns.key'))
                 ->default(Str::random(6))
                 ->unique(ignoreRecord: true)
                 ->required()
                 ->maxLength(255),
-            Forms\Components\Textarea::make('description')
-                ->label(trans('filament-cms::messages.forms.columns.description'))
+            Textarea::make('description')
+                ->label(trans('filament-form-builder::messages.forms.columns.description'))
                 ->columnSpanFull(),
-            Forms\Components\TextInput::make('endpoint')
-                ->label(trans('filament-cms::messages.forms.columns.endpoint'))
+            TextInput::make('endpoint')
+                ->label(trans('filament-form-builder::messages.forms.columns.endpoint'))
                 ->columnSpanFull()
                 ->maxLength(255)
                 ->default('/'),
-            Forms\Components\Toggle::make('is_active')
-                ->label(trans('filament-cms::messages.forms.columns.is_active')),
+            Toggle::make('is_active')
+                ->label(trans('filament-form-builder::messages.forms.columns.is_active')),
         ];
 
-        return $form
-            ->schema(fn ($record) => $record ? [
-                Forms\Components\Section::make(trans('filament-cms::messages.forms.section.information'))
+        return $schema
+            ->components(fn ($record) => $record ? [
+                Section::make(trans('filament-form-builder::messages.forms.section.information'))
                     ->collapsible()
                     ->collapsed(fn ($record) => $record)
                     ->schema($formSchema),
@@ -97,29 +107,29 @@ class FormResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('type')
-                    ->label(trans('filament-cms::messages.forms.columns.type'))
+                TextColumn::make('type')
+                    ->label(trans('filament-form-builder::messages.forms.columns.type'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('title')
-                    ->label(trans('filament-cms::messages.forms.columns.title'))
+                TextColumn::make('title')
+                    ->label(trans('filament-form-builder::messages.forms.columns.title'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('key')
-                    ->label(trans('filament-cms::messages.forms.columns.key'))
+                TextColumn::make('key')
+                    ->label(trans('filament-form-builder::messages.forms.columns.key'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('endpoint')
-                    ->label(trans('filament-cms::messages.forms.columns.endpoint'))
+                TextColumn::make('endpoint')
+                    ->label(trans('filament-form-builder::messages.forms.columns.endpoint'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('method')
-                    ->label(trans('filament-cms::messages.forms.columns.method'))
+                TextColumn::make('method')
+                    ->label(trans('filament-form-builder::messages.forms.columns.method'))
                     ->searchable(),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->label(trans('filament-cms::messages.forms.columns.is_active'))
+                IconColumn::make('is_active')
+                    ->label(trans('filament-form-builder::messages.forms.columns.is_active'))
                     ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -127,12 +137,12 @@ class FormResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -140,16 +150,16 @@ class FormResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\FormFieldsRelation::class,
-            RelationManagers\FormRequestsRelation::class,
+            FormFieldsRelation::class,
+            FormRequestsRelation::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListForms::route('/'),
-            'edit' => Pages\EditForm::route('/{record}/edit'),
+            'index' => ListForms::route('/'),
+            'edit' => EditForm::route('/{record}/edit'),
         ];
     }
 }

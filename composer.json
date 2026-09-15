@@ -5,12 +5,16 @@
     "keywords": [
         "php",
         "laravel",
-        "template"
+        "filament",
+        "filament-plugin",
+        "form-builder",
+        "forms"
     ],
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "TomatoPHP\\FilamentFormBuilder\\": "src/"
+            "TomatoPHP\\FilamentFormBuilder\\": "src/",
+            "TomatoPHP\\FilamentFormBuilder\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
@@ -41,28 +45,30 @@
     },
     "scripts": {
         "testbench": "vendor/bin/testbench package:discover --ansi",
-        "db": "vendor/bin/testbench package:create-sqlite-db && vendor/bin/testbench migrate",
-        "analyse": "vendor/bin/phpstan analyse src tests",
+        "analyse": "vendor/bin/phpstan analyse src --level=0",
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",
         "format": "vendor/bin/pint"
     },
     "require": {
-        "php": "^8.1|^8.2",
+        "php": "^8.2",
         "tomatophp/console-helpers": "^1.1",
-        "filament/filament": "^3.2"
+        "filament/filament": "^5.0",
+        "filament/spatie-laravel-media-library-plugin": "^5.0",
+        "lara-zeus/spatie-translatable": "^2.0",
+        "tomatophp/filament-icons": "^5.0",
+        "tomatophp/filament-translation-component": "^5.0"
     },
     "require-dev": {
-       "laravel/pint": "^1.18",
-       "livewire/livewire": "^2.10|^3.0",
-       "nunomaduro/larastan": "^2.9",
-       "orchestra/testbench": "^9.5",
-       "pestphp/pest": "^2.36",
-       "pestphp/pest-plugin-laravel": "^2.4",
-       "pestphp/pest-plugin-livewire": "^2.1",
-       "phpstan/extension-installer": "^1.4",
-       "phpstan/phpstan-deprecation-rules": "^1.2",
-       "phpstan/phpstan-phpunit": "^1.4"
+        "larastan/larastan": "^3.0",
+        "laravel/pint": "^1.24",
+        "orchestra/testbench": "^10.0|^11.0",
+        "pestphp/pest": "^4.0|^5.0",
+        "pestphp/pest-plugin-laravel": "^4.0|^5.0",
+        "pestphp/pest-plugin-livewire": "^4.0|^5.0",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0"
     },
-    "version": "v1.0.0"
+    "version": "5.0.0"
 }

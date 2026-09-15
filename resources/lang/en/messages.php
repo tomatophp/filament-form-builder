@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'group' => 'Content',
     'forms' => [
         'section' => [
             'information' => 'Form Information',

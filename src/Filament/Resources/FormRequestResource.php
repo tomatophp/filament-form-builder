@@ -2,43 +2,50 @@
 
 namespace TomatoPHP\FilamentFormBuilder\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormRequestResource\Pages;
+use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormRequestResource\Pages\CreateFormRequest;
+use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormRequestResource\Pages\EditFormRequest;
+use TomatoPHP\FilamentFormBuilder\Filament\Resources\FormRequestResource\Pages\ListFormRequests;
 use TomatoPHP\FilamentFormBuilder\Models\FormRequest;
 
 class FormRequestResource extends Resource
 {
     protected static ?string $model = FormRequest::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('model_type')
+        return $schema
+            ->components([
+                TextInput::make('model_type')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('model_id')
+                TextInput::make('model_id')
                     ->numeric(),
-                Forms\Components\TextInput::make('service_type')
+                TextInput::make('service_type')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('service_id')
+                TextInput::make('service_id')
                     ->numeric(),
-                Forms\Components\TextInput::make('form_id')
+                TextInput::make('form_id')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('status')
+                TextInput::make('status')
                     ->maxLength(255)
                     ->default('pending'),
-                Forms\Components\TextInput::make('payload'),
-                Forms\Components\Textarea::make('description')
+                TextInput::make('payload'),
+                Textarea::make('description')
                     ->columnSpanFull(),
-                Forms\Components\DatePicker::make('date'),
-                Forms\Components\TextInput::make('time'),
+                DatePicker::make('date'),
+                TextInput::make('time'),
             ]);
     }
 
@@ -46,30 +53,30 @@ class FormRequestResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('model_type')
+                TextColumn::make('model_type')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('model_id')
+                TextColumn::make('model_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('service_type')
+                TextColumn::make('service_type')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('service_id')
+                TextColumn::make('service_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('form_id')
+                TextColumn::make('form_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status')
+                TextColumn::make('status')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('date')
+                TextColumn::make('date')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('time'),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('time'),
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -77,12 +84,12 @@ class FormRequestResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -97,9 +104,9 @@ class FormRequestResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListFormRequests::route('/'),
-            'create' => Pages\CreateFormRequest::route('/create'),
-            'edit' => Pages\EditFormRequest::route('/{record}/edit'),
+            'index' => ListFormRequests::route('/'),
+            'create' => CreateFormRequest::route('/create'),
+            'edit' => EditFormRequest::route('/{record}/edit'),
         ];
     }
 }

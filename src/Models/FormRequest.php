@@ -3,6 +3,7 @@
 namespace TomatoPHP\FilamentFormBuilder\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -49,7 +50,7 @@ class FormRequest extends Model implements HasMedia
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function form()
     {

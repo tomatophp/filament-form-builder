@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'group' => 'المحتوى',
     'forms' => [
         'section' => [
             'information' => 'تفاصيل النموذج',

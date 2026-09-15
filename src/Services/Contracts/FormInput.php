@@ -2,7 +2,9 @@
 
 namespace TomatoPHP\FilamentFormBuilder\Services\Contracts;
 
+use Exception;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Crypt;
 
 class FormInput
 {
@@ -60,10 +62,10 @@ class FormInput
     {
         // decrypt
         try {
-            $decryptedString = \Crypt::decrypt(Cookie::get('lang'), false);
+            $decryptedString = Crypt::decrypt(Cookie::get('lang'), false);
             $lang = json_decode(explode('|', $decryptedString)[1]);
             app()->setLocale($lang->id ?? config('app.locale'));
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
         }
     }
 
@@ -102,7 +104,7 @@ class FormInput
 
     public static function make(): static
     {
-        return new static;
+        return app(static::class);
     }
 
     public function label(string $label): static

@@ -13,23 +13,23 @@ return new class extends Migration
      */
     public function up()
     {
-        if (config('filament-cms.features.forms')) {
+        if (! Schema::hasTable('forms')) {
             Schema::create('forms', function (Blueprint $table) {
                 $table->id();
 
-                //Set Type from page/modal/slideover
+                // Set Type from page/modal/slideover
                 $table->string('type')->default('page')->nullable();
 
-                //Set Name And Key
+                // Set Name And Key
                 $table->json('title')->nullable();
                 $table->json('description')->nullable();
                 $table->string('key')->unique()->index();
 
-                //Set Form Action
+                // Set Form Action
                 $table->string('endpoint')->default('/')->nullable();
                 $table->string('method')->default('POST')->nullable();
 
-                //Form Control
+                // Form Control
                 $table->boolean('is_active')->default(0)->nullable();
 
                 $table->timestamps();
