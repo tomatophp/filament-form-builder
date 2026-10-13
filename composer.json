@@ -2,6 +2,12 @@
     "name": "tomatophp/filament-form-builder",
     "type": "library",
     "description": "Manage your forms using database and drop/drag component to build the form with Livewire component support for FilamentPHP",
+    "homepage": "https://tomatophp.com/en/plugins/filament-form-builder",
+    "support": {
+        "issues": "https://github.com/tomatophp/filament-form-builder/issues",
+        "source": "https://github.com/tomatophp/filament-form-builder",
+        "docs": "https://tomatophp.com/en/plugins/filament-form-builder"
+    },
     "keywords": [
         "php",
         "laravel",
